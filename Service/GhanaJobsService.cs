@@ -58,8 +58,7 @@ public class GhanaJobsService : IJobsService
         List<Job> jobList = new List<Job>();
         HtmlDocument htmlDocument = new HtmlDocument();
         using HttpClient client = new HttpClient();
-        int currentPage = 1
-            ;
+        int currentPage = 1;
         while (true)
         {
             _logger.LogInformation($"Starting scrapping from page {currentPage} ============");
