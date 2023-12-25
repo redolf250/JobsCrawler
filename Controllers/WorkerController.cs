@@ -24,7 +24,7 @@ public class WorkerController : ControllerBase
      public async Task<ActionResult> Test()
      {
           var enqueue = BackgroundJob.Enqueue<IJobsService>(service =>
-               service.BackgroundWorker(Path.GetFullPath(Directory.GetCurrentDirectory() + @"\ghanaJobs.csv")));
+               service.BackgroundWorker());
           return Ok(enqueue);
      }
 
