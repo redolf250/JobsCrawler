@@ -6,5 +6,6 @@ public class ApplicationDbContext  : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Job> Jobs { get; set; }
+    public DbSet<CrawledJob> CrawledJobs { get; set; }
+    public DbSet<GhanaJobId> GhanaJobIds { get; set; }
 }
