@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Crawler;
+namespace Crawler.Model;
 
 public class CrawledJob
 {
-    [Key]
-    public Guid CrawledJobId {get; set;}
-    public string JobId { get; set; }
+    [Key] public Guid CrawledJobId { get; set; }
+
+    public string? JobId { get; set; }
     public string? JobTitle { get; set; }
-    public string JobSourceUrl { get; set; }
+    public string? JobSourceUrl { get; set; }
     public string? JobDescription { get; set; }
     public string? JobRequirement { get; set; }
 
