@@ -48,7 +48,7 @@ public class GhanaJobsService : IJobsService
         Console.WriteLine("Background service done executing, no new jobs found ============");
     }
 
-    private async Task SaveCrawledJobsData(List<CrawledJob> jobs, List<GhanaJobId> newJobsIds)
+    private async Task SaveCrawledJobsData(IEnumerable<CrawledJob> jobs, IEnumerable<GhanaJobId> newJobsIds)
     {
         try
         {
@@ -62,13 +62,13 @@ public class GhanaJobsService : IJobsService
         }
         catch (Exception e)
         {
-            _logger.LogError($"{e.Message}");
-            Console.WriteLine($"{e.Message}");
+            _logger.LogError(e.Message);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
-    private async Task<List<CrawledJob>> DestructureScrapJobUrls(List<string> urlList)
+    private async Task<List<CrawledJob>> DestructureScrapJobUrls(IEnumerable<string> urlList)
     {
         var jobList = new List<CrawledJob>();
         var htmlDocument = new HtmlDocument();
@@ -143,14 +143,14 @@ public class GhanaJobsService : IJobsService
         return jobDetails;
     }
 
-    private string TransformHtmlListElements(List<HtmlNode>? results)
+    private string TransformHtmlListElements(IEnumerable<HtmlNode>? results)
     {
         var records = new List<string>();
         if (results != null)
         {
             Console.WriteLine("Started transforming html list elements for a given url");
             _logger.LogInformation("Started transforming html list elements for a given url");
-            foreach (var result in results) records.Add(result.InnerText.Trim());
+            records.AddRange(results.Select(result => result.InnerText.Trim()));
         }
 
         Console.WriteLine("Done transforming html list elements for a given url");
@@ -158,13 +158,12 @@ public class GhanaJobsService : IJobsService
         return string.Join(" ", records);
     }
 
-    private static List<string> ExtractJobIdsFromUrls(List<string> jobUrls)
+    private static List<string> ExtractJobIdsFromUrls(IEnumerable<string> jobUrls)
     {
         var jobIds = new List<string>();
         Console.WriteLine("Stated extracting job ids from urls ============");
-        foreach (var url in jobUrls)
+        foreach (var jobId in jobUrls.Select(url => url.Split("-").Last()))
         {
-            var jobId = url.Split("-").Last();
             jobIds.Add(jobId);
             Console.WriteLine("Extracting Job Ids From Urls ============");
         }
@@ -222,7 +221,7 @@ public class GhanaJobsService : IJobsService
         return UrlList;
     }
 
-    private List<string> FilterOnlyNewJobsUrls(List<string> alreadyExistingJobsIds, List<string> scrappedJobsIds)
+    private List<string> FilterOnlyNewJobsUrls(IEnumerable<string> alreadyExistingJobsIds, IEnumerable<string> scrappedJobsIds)
     {
         Console.WriteLine("Started filtering only new jobs urls ============");
         _logger.LogInformation("Started performing LINQ operation ============");

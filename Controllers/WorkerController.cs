@@ -7,12 +7,6 @@ namespace Crawler.Controllers;
 [ApiController]
 public class WorkerController : ControllerBase
 {
-    private readonly IJobsService _jobsService;
-    public WorkerController(IJobsService jobsService)
-    {
-        _jobsService = jobsService;
-    }
-
     [HttpGet("/")]
     public Task<ActionResult> Home()
     {
