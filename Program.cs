@@ -11,12 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IJobsService, GhanaJobsService>();
 
 Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
-    .WriteTo.File("logs/crawler.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.File("logs/crawler.txt", rollingInterval: RollingInterval.Hour)
     .CreateLogger();
 
 builder.Host.UseSerilog();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("ServerConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -24,7 +24,7 @@ builder.Services.AddHangfire(x =>
     x.UseSimpleAssemblyNameTypeSerializer()
         .UseRecommendedSerializerSettings()
         .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-        .UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
+        .UseSqlServerStorage(builder.Configuration.GetConnectionString("ServerConnection")));
 builder.Services.AddHangfireServer();
 
 builder.Services.AddControllers();
