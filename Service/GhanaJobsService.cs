@@ -44,8 +44,10 @@ public class GhanaJobsService : IJobsService
             _logger.LogInformation("Background service done executing ============");
             Console.WriteLine("Background service done executing ============");
         }
-
-        Console.WriteLine("Background service done executing, no new jobs found ============");
+        else
+        {
+            Console.WriteLine("Background service done executing, no new jobs found ============");
+        }
     }
 
     private async Task SaveCrawledJobsData(IEnumerable<CrawledJob> jobs, IEnumerable<GhanaJobId> newJobsIds)
@@ -54,8 +56,8 @@ public class GhanaJobsService : IJobsService
         {
             _logger.LogInformation("Saving jobs to database ============");
             Console.WriteLine("Saving jobs to database ============");
-            await _dbContext.CrawledJobs!.AddRangeAsync(jobs);
-            await _dbContext.GhanaJobIds!.AddRangeAsync(newJobsIds);
+            await _dbContext.Staging_GhanaJob!.AddRangeAsync(jobs);
+            await _dbContext.Staging_GhanaJobIds!.AddRangeAsync(newJobsIds);
             await _dbContext.SaveChangesAsync();
             Console.WriteLine("Saved jobs to database successfully ============");
             _logger.LogInformation("Saved jobs to database successfully ============");
@@ -240,7 +242,7 @@ public class GhanaJobsService : IJobsService
     {
         try
         {
-            var results = await _dbContext.GhanaJobIds!.ToListAsync();
+            var results = await _dbContext.Staging_GhanaJobIds!.ToListAsync();
             var list = results.Select(id => id.JobId).ToList();
             Console.WriteLine("Getting old job ids from database ============");
             _logger.LogInformation("Getting jobs old job ids from database ============");
