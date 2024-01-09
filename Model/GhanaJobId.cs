@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Crawler;
+namespace Crawler.Model;
 
 public class GhanaJobId
 {
