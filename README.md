@@ -1,5 +1,3 @@
-# Welcome
-
 ## Welcome to C# Web Crawler using HtmlAgilityPack
 Welcome to the C# Web Crawler repository utilizing the powerful HtmlAgilityPack library! This tool is designed to empower developers with an efficient and flexible solution for web scraping in C#.
 
